@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    const int jumlahBuku = 10;
+    int nomorBuku[jumlahBuku] = {103, 85, 120, 45, 67, 32, 78, 90, 54, 67};
+    int target;
+    int i = 0;
+    int counter = 0;
+
+    cout << "=== SISTEM PENCARIAN NOMOR BUKU PERPUSTAKAAN ===" << endl;
+
+    cout << "\nDaftar nomor buku di perpustakaan: ";
+    for (int a = 0; a < jumlahBuku; a++) {
+        cout << nomorBuku[a] << " ";
+    }
+    cout << endl;
+
+    cout << "\nMasukkan nomor buku yang ingin dicari : ";
+    cin >> target;
+
+    while (i < jumlahBuku) {
+        if (nomorBuku[i] == target) {
+            counter++;
+        }
+        i++;
+    }
+
+    if (counter > 0) {
+        cout << "\nNomor buku " << target << " ditemukan sebanyak " << counter << " kali di daftar." << endl;
+    } else {
+        cout << "\nNomor buku " << target << " tidak ditemukan dalam daftar perpustakaan." << endl;
+    }
+
+    return 0;
+}
