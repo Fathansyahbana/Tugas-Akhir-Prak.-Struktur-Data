@@ -29,7 +29,7 @@ void pop() {
     }
     cout << "Buku dengan kode " << stack[top--] << " berhasil dihapus\n";
 }
-
+1
 void peek() {
     if (isEmpty()) {
         cout << "Stack kosong\n";
@@ -50,6 +50,11 @@ void display() {
     cout << endl;
 }
 
+void clear() {
+    top = -1;
+    cout << "Buku kembali kosong";
+}
+
 int main() {
     int pilih, val;
     do {
@@ -58,7 +63,8 @@ int main() {
         cout << "2. Pop (Hapus Buku Teratas)\n";
         cout << "3. Peek (Lihat Buku Teratas)\n";
         cout << "4. Display (Tampilkan Semua Buku)\n";
-        cout << "5. Keluar\n";
+        cout << "5. Clear (Bersih semua buku)\n";
+        cout << "6. Keluar\n";
         cout << "Pilih: ";
         cin >> pilih;
 
@@ -72,7 +78,9 @@ int main() {
             peek();
         } else if (pilih == 4) {
             display();
+        }else if (pilih == 5) {
+            clear();
         }
-    } while (pilih != 5);
+    } while (pilih != 6);
     return 0;
 }
