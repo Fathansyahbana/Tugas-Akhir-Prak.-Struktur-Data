@@ -1,0 +1,98 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+#define SIZE 10
+
+enum State { EMPTY, OCCUPIED, DELETED };
+
+struct Book {
+    int key;          // Nomor buku
+    string title;     // Judul buku
+    State state;      // Status slot hash table
+};
+
+int hashFunction(int key) {
+    return (key % SIZE + SIZE) % SIZE;
+}
+
+void initializeTable(Book table[]) {
+    for (int i = 0; i < SIZE; i++) {
+        table[i].state = EMPTY;
+    }
+}
+
+void insert(Book table[], int key, string title) {
+    int index = hashFunction(key);
+    int startIndex = index;
+    while (table[index].state == OCCUPIED) {
+        index = (index + 1) % SIZE;
+        if (index == startIndex) {
+            cout << "Tabel penuh, tidak bisa menambahkan buku!" << endl;
+            return;
+        }
+    }
+    table[index].key = key;
+    table[index].title = title;
+    table[index].state = OCCUPIED;
+}
+
+Book* search(Book table[], int key) {
+    int index = hashFunction(key);
+    int startIndex = index;
+
+    while (table[index].state != EMPTY) {
+        if (table[index].state == OCCUPIED && table[index].key == key) {
+            return &table[index];
+        }
+        index = (index + 1) % SIZE;
+        if (index == startIndex)
+            break;
+    }
+    return nullptr;
+}
+
+void removeBook(Book table[], int key) {
+    Book* found = search(table, key);
+    if (found != nullptr) {
+        found->state = DELETED;
+        cout << "Buku dengan nomor " << key << " telah dihapus.\n";
+    } else {
+        cout << "Buku dengan nomor " << key << " tidak ditemukan.\n";
+    }
+}
+
+void display(Book table[]) {
+    cout << "\nIsi Hash Table (Open Addressing, Linear Probing):\n";
+    for (int i = 0; i < SIZE; i++) {
+        cout << i << ": ";
+        if (table[i].state == EMPTY)
+            cout << "EMPTY";
+        else if (table[i].state == DELETED)
+            cout << "DELETED";
+        else
+            cout << "(" << table[i].key << ", \"" << table[i].title << "\")";
+        cout << endl;
+    }
+}
+
+int main() {
+    Book table[SIZE];
+    initializeTable(table);
+    insert(table, 101, "Struktur Data");
+    insert(table, 111, "Algoritma Dasar");
+    insert(table, 121, "Pemrograman C++");
+    insert(table, 102, "Basis Data");
+    display(table);
+
+    cout << "\nMencari buku dengan nomor 111...\n";
+    Book* found = search(table, 111);
+    if (found != nullptr)
+        cout << "Buku ditemukan: \"" << found->title << "\"\n";
+    else
+        cout << "Buku tidak ditemukan.\n";
+    cout << "\nMenghapus buku dengan nomor 111...\n";
+    removeBook(table, 111);
+    display(table);
+    return 0;
+}
